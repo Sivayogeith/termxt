@@ -12,8 +12,11 @@ import websocket
 from rich.text import Text
 from configparser import ConfigParser
 import json
-from config import CONFIG_FILE, API_URL, WS_URL
 from sys import exit
+
+CONFIG_FILE = "/.termxt.cfg"
+API_URL = "https://smoke-consist-meaningful-analyzed.trycloudflare.com"
+WS_URL = "ws://smoke-consist-meaningful-analyzed.trycloudflare.com/chat"
 
 config = ConfigParser()
 
@@ -245,6 +248,9 @@ def logout():
 def is_logged_in():
     return config.has_section("account") and config.has_option("account", "username") and config.has_option("account", "code")
 
-if __name__ == "__main__":
+def entry():
     get_config()
     app()
+    
+if __name__ == "__main__":
+    entry()

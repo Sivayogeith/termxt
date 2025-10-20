@@ -1,0 +1,15 @@
+[project]
+name = "termxt"
+version = "1.0.0"
+description = "A terminal direct messaging app, you can enter your friend's usernames and talk with them! The messages are encrypted!"
+readme = "README.md"
+requires-python = ">=3.12"
+dependencies = ["typer", "textual", "pycryptodome", "websocket-client", "requests"]
+license = "MIT"
+license-files = ["LICENSE"]
+
+[project.scripts]
+termxt = "termxt.termxt:entry"
+
+[tool.setuptools.packages.find]
+where = ["src"]

@@ -3,4 +3,3 @@ textual
 pycryptodome
 websocket-client
 requests
-pyinstaller
