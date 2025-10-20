@@ -13,6 +13,7 @@ from rich.text import Text
 from configparser import ConfigParser
 import json
 from config import CONFIG_FILE, API_URL, WS_URL
+from sys import exit
 
 config = ConfigParser()
 
@@ -180,7 +181,7 @@ app = typer.Typer()
 @app.callback(invoke_without_command=True)
 def main(ctx: typer.Context):
     if ctx.invoked_subcommand is None:
-        if config["account"]["code"]:
+        if config.has_section("account") and config.has_option("account", "code"):
             print("Run the chat command with friend's username to chat with them!")
         else:
             print("Please register or login!")
