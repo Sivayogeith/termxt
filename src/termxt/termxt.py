@@ -70,7 +70,7 @@ class LoginApp(App):
             config["account"] = data["data"]
             save_config()
             exit(
-                "Successfully logged in! Run the chat command with your friend's username to start a chat with them!"
+                "Successfully logged in! Run 'termxt chat' and enter your friend's username to start a chat with them!"
             )
 
 
@@ -101,7 +101,7 @@ class RegisterApp(App):
             config["account"] = data["data"]
             save_config()
             exit(
-                "Successfully registered and logged in! Run the chat command with your friend's username to start a chat with them!"
+                "Successfully registered and logged in! Run 'termxt chat' and enter your friend's username to start a chat with them!"
             )
 
 
@@ -208,9 +208,9 @@ app = typer.Typer()
 def main(ctx: typer.Context):
     if ctx.invoked_subcommand is None:
         if is_logged_in():
-            print("Run the chat command with friend's username to chat with them!")
+            print("Run 'termxt chat' and enter friend's username to chat with them!")
         else:
-            print("Please register or login!")
+            print("Please register or login with the 'termxt register' or 'termxt login'!")
 
 
 @app.command()
@@ -219,7 +219,7 @@ def register():
         register = RegisterApp()
         register.run()
     else:
-        print("You are logged in! Run the logout command to logout!")
+        print("You are logged in! Run 'termxt logout' to logout!")
 
 
 @app.command()
@@ -228,7 +228,7 @@ def login():
         login = LoginApp()
         login.run()
     else:
-        print("You are already logged in! Run the logout command to logout!")
+        print("You are already logged in! Run 'termxt logout' to logout!")
 
 
 @app.command()
