@@ -107,7 +107,7 @@ class ChatApp(App):
     }
 
     #message-container {
-        height: 94%;
+        height: 92%;
     }
 
     .message {
@@ -118,11 +118,18 @@ class ChatApp(App):
         height: auto;
         margin: 1;
     }
+    
+    .sent {
+        text-align: right;
+        color: #205bc9;
+    }
     """
 
     def compose(self) -> ComposeResult:
         self.messages = ScrollableContainer(id="message-container")
         yield self.messages
+        self.error = Label()
+        yield self.error
         with Container(id="input-container"):
             self.username = Input(placeholder="To username (press Enter)", id="username")
             self.message = Input(
@@ -130,7 +137,6 @@ class ChatApp(App):
             )
             yield self.username
             yield self.message
-        self.error = Label()
 
     def on_mount(self):
         def on_message(ws, message):
@@ -169,11 +175,16 @@ class ChatApp(App):
             else:
                 self.error.update(f"{self.username.value} doesn't exist!")
                 self.username_valid = False
-            self.mount(self.error)
         if event.input.id == "message" and self.username_valid:
             msg = event.input.value
             event.input.value = ""
             self.ws.send(json.dumps({"from": config["account"]["username"], "to": self.username.value, "message": msg}))
+            self.messages.mount(
+                Label(
+                    Text.from_markup(f"[bold]{config["account"]["username"]}[/bold]\n{msg}"),
+                    classes="message sent",
+                )
+            )
 
 
 
