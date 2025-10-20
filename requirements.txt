@@ -1,3 +1,4 @@
 typer
 textual
 textual-dev
+pycryptodome
