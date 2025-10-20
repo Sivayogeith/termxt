@@ -140,6 +140,7 @@ class ChatApp(App):
             self.ws = websocket.WebSocketApp(
                 WS_URL,
                 on_message=on_message,
+                on_close=exit
             )
             self.ws.run_forever()
 
@@ -157,12 +158,8 @@ class ChatApp(App):
             )
 
     @on(Input.Submitted)
-    def on_send_message(self, event: Input.Submitted):
-        if event.input.id == "message" and self.username_valid:
-            msg = event.input.value
-            event.input.value = ""
-            self.ws.send(json.dumps({"from": config["account"]["username"], "to": self.username.value, "message": msg}))
-        elif event.input.id == "username":
+    def on_send_message(self, event: Input.Submitted):        
+        if event.input.id == "username" or event.input.id == "message":
             response = requests.get(
                 f"{API_URL}/user/exists?username={self.username.value}"
             )
@@ -173,6 +170,11 @@ class ChatApp(App):
                 self.error.update(f"{self.username.value} doesn't exist!")
                 self.username_valid = False
             self.mount(self.error)
+        if event.input.id == "message" and self.username_valid:
+            msg = event.input.value
+            event.input.value = ""
+            self.ws.send(json.dumps({"from": config["account"]["username"], "to": self.username.value, "message": msg}))
+
 
 
 app = typer.Typer()
