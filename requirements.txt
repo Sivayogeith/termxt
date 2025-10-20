@@ -1,4 +1,6 @@
 typer
 textual
-textual-dev
 pycryptodome
+websocket-client
+requests
+pyinstaller
