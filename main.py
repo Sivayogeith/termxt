@@ -52,13 +52,17 @@ class LoginApp(App):
         yield self.message
 
     @on(Button.Pressed)
-    def submit(self):
+    @on(Input.Submitted)
+    def submit(self, event):
+        if isinstance(event, Input.Submitted) and event.input == self.username:
+            return self.password.focus()
         response = requests.post(
             API_URL + "/user/login",
             json={"username": self.username.value, "password": self.password.value},
         )
         data = response.json()
         self.message.content = data["message"]
+        self.username.focus()
         if response.status_code == 200:
             config["account"] = data["data"]
             save_config()
@@ -79,13 +83,17 @@ class RegisterApp(App):
         yield self.message
 
     @on(Button.Pressed)
-    def submit(self):
+    @on(Input.Submitted)
+    def submit(self, event):
+        if isinstance(event, Input.Submitted) and event.input == self.username:
+            return self.password.focus()
         response = requests.post(
             API_URL + "/user/register",
             json={"username": self.username.value, "password": self.password.value},
         )
         data = response.json()
         self.message.content = data["message"]
+        self.username.focus()
         if response.status_code == 200:
             config["account"] = data["data"]
             save_config()
