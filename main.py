@@ -162,6 +162,7 @@ class ChatApp(App):
                     classes="message",
                 )
             )
+            self.messages.scroll_page_down()
 
     @on(Input.Submitted)
     def on_send_message(self, event: Input.Submitted):        
@@ -185,6 +186,7 @@ class ChatApp(App):
                     classes="message sent",
                 )
             )
+            self.messages.scroll_page_down()
 
 
 
