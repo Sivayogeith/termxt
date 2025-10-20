@@ -158,7 +158,7 @@ class ChatApp(App):
             decrypted = decrypt(message["message"], config["account"]["code"])
             self.messages.mount(
                 Label(
-                    Text.from_markup(f"[bold]{message["from"]}[/bold]\n{decrypted}"),
+                    Text.from_markup(f"[bold]{message["from"]}[/bold]\n {decrypted}"),
                     classes="message",
                 )
             )
@@ -182,7 +182,7 @@ class ChatApp(App):
             self.ws.send(json.dumps({"from": config["account"]["username"], "to": self.username.value, "message": msg}))
             self.messages.mount(
                 Label(
-                    Text.from_markup(f"[bold]{config["account"]["username"]}[/bold]\n{msg}"),
+                    Text.from_markup(f"[bold]{config["account"]["username"]}[/bold]\n{msg} "),
                     classes="message sent",
                 )
             )
@@ -196,22 +196,28 @@ app = typer.Typer()
 @app.callback(invoke_without_command=True)
 def main(ctx: typer.Context):
     if ctx.invoked_subcommand is None:
-        if config.has_section("account") and config.has_option("account", "code"):
+        if is_logged_in():
             print("Run the chat command with friend's username to chat with them!")
         else:
             print("Please register or login!")
 
 
 @app.command()
-def register():
-    register = RegisterApp()
-    register.run()
+def register():    
+    if not is_logged_in():
+        register = RegisterApp()
+        register.run()
+    else:
+        print("You are logged in! Run the logout command to logout!")
 
 
 @app.command()
 def login():
-    login = LoginApp()
-    login.run()
+    if not is_logged_in():
+        login = LoginApp()
+        login.run()
+    else:
+        print("You are already logged in! Run the logout command to logout!")
 
 
 @app.command()
@@ -219,6 +225,17 @@ def chat():
     chat = ChatApp()
     chat.run()
 
+@app.command()
+def logout():
+    if is_logged_in():
+        print(f"Bye {config['account']['username']}!")
+        config.clear()
+        save_config()
+    else:
+        print("You aren't logged in!")
+        
+def is_logged_in():
+    return config.has_section("account") and config.has_option("account", "username") and config.has_option("account", "code")
 
 if __name__ == "__main__":
     get_config()
