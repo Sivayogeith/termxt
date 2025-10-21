@@ -187,7 +187,7 @@ class ChatApp(App):
             else:
                 self.error.update(f"{self.username.value} doesn't exist!")
                 self.username_valid = False
-        if event.input.id == "message" and self.username_valid:
+        if event.input.id == "message" and event.input.value.replace(" ", "") != "" and self.username_valid:
             msg = event.input.value
             event.input.value = ""
             self.ws.send(json.dumps({"from": config["account"]["username"], "to": self.username.value, "message": msg}))
@@ -233,8 +233,11 @@ def login():
 
 @app.command()
 def chat():
-    chat = ChatApp()
-    chat.run()
+    if is_logged_in():
+        chat = ChatApp()
+        chat.run()
+    else:
+        print("You aren't logged in! Run 'termxt login' to login in!")
 
 @app.command()
 def logout():
