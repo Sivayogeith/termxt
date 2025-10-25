@@ -14,9 +14,8 @@ from configparser import ConfigParser
 import json
 from sys import exit
 
-CONFIG_FILE = "/.termxt.cfg"
-API_URL = "https://smoke-consist-meaningful-analyzed.trycloudflare.com"
-WS_URL = "ws://smoke-consist-meaningful-analyzed.trycloudflare.com/chat"
+API_URL = "https://federation-michael-aaa-icon.trycloudflare.com"
+WS_URL = "ws://federation-michael-aaa-icon.trycloudflare.com/chat"
 
 config = ConfigParser()
 
