@@ -21,7 +21,7 @@ config = ConfigParser()
 
 
 def save_config():
-    with open(str(pathlib.Path.home()) + "/.termxt.cfg", "w") as config_file:
+    with open(str(pathlib.Path.home()) + CONFIG_FILE, "w") as config_file:
         config.write(config_file)
 
 
