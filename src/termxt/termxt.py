@@ -16,6 +16,7 @@ from sys import exit
 
 global CONFIG_FILE, API_URL, WS_URL
 
+CONFIG_FILE = "/.termxt.cfg"
 API_URL = "https://federation-michael-aaa-icon.trycloudflare.com"
 WS_URL = "ws://federation-michael-aaa-icon.trycloudflare.com/chat"
 
