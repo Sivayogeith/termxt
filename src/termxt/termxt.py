@@ -14,6 +14,8 @@ from configparser import ConfigParser
 import json
 from sys import exit
 
+global CONFIG_FILE, API_URL, WS_URL
+
 API_URL = "https://federation-michael-aaa-icon.trycloudflare.com"
 WS_URL = "ws://federation-michael-aaa-icon.trycloudflare.com/chat"
 
